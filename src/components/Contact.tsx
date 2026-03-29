@@ -27,11 +27,6 @@ export default function Contact() {
             ranvijay0401@gmail.com
             <ArrowIcon />
           </a>
-          <h4>Phone</h4>
-          <a href="tel:+918795808000" className="contact-link">
-            +91 879 580 8000
-            <ArrowIcon />
-          </a>
         </div>
         <div className="contact-col reveal">
           <h4>Social</h4>
