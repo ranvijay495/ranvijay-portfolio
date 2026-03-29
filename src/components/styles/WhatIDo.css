@@ -1,0 +1,45 @@
+.whatido {
+  display: flex; align-items: center; gap: 60px;
+  flex-wrap: wrap; min-height: 100vh;
+}
+.whatido-heading { flex: 1; min-width: 280px; }
+.whatido-heading h2 {
+  font-size: clamp(50px, 7vw, 100px);
+  line-height: 0.95; font-weight: 700;
+}
+.whatido-heading h2 .italic { font-style: italic; }
+.whatido-heading h2 .accent { color: var(--accent); }
+.whatido-cards { flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 0; }
+.whatido-card {
+  border: 1px dashed rgba(255,255,255,0.15);
+  padding: 40px; position: relative;
+  transition: all 0.5s; overflow: hidden;
+  cursor: default;
+}
+.whatido-card::before {
+  content: ''; position: absolute; top: -1px; left: -1px;
+  width: 14px; height: 14px;
+  border-top: 3px solid #fff; border-left: 3px solid #fff;
+}
+.whatido-card::after {
+  content: ''; position: absolute; bottom: -1px; right: -1px;
+  width: 14px; height: 14px;
+  border-bottom: 3px solid #fff; border-right: 3px solid #fff;
+}
+.whatido-card:hover {
+  background: rgba(94,234,212,0.03);
+  border-color: rgba(94,234,212,0.25);
+}
+.whatido-card h3 { font-size: 28px; letter-spacing: 1px; margin-bottom: 4px; }
+.whatido-card h4 {
+  font-weight: 300; font-size: 14px; opacity: 0.4;
+  letter-spacing: 1px; margin-bottom: 12px;
+}
+.whatido-card p { font-size: 14px; font-weight: 300; line-height: 1.5; opacity: 0.8; margin-bottom: 16px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 12px; padding: 3px 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; font-weight: 400;
+}

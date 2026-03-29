@@ -1,0 +1,31 @@
+.contact-section { position: relative; z-index: 2; padding: 120px 5% 80px; }
+.contact-section h2 {
+  font-size: clamp(40px, 5vw, 60px); font-weight: 400;
+  text-transform: uppercase; margin-bottom: 50px;
+}
+.contact-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+.contact-col { display: flex; flex-direction: column; }
+.contact-col h4 { font-weight: 500; opacity: 0.5; margin-bottom: 10px; margin-top: 20px; }
+.contact-col h4:first-child { margin-top: 0; }
+.contact-col p { font-size: 16px; margin-bottom: 4px; }
+.contact-link {
+  font-size: 22px; display: inline-flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 4px; margin-bottom: 10px;
+  transition: border-color 0.3s;
+}
+.contact-link:hover { border-color: var(--accent); }
+.contact-link svg { width: 18px; height: 18px; transition: transform 0.3s; }
+.contact-link:hover svg { transform: translate(3px, -3px); }
+
+.footer {
+  padding: 30px 5%; display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  position: relative; z-index: 2;
+}
+.footer-credit { font-size: 18px; font-weight: 400; }
+.footer-credit span { color: var(--accent); }
+.footer-copy { font-size: 16px; opacity: 0.4; }
+@media (max-width: 600px) {
+  .footer { flex-direction: column; gap: 10px; text-align: center; }
+}

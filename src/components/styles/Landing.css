@@ -1,0 +1,57 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#hero-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+}
+.hero-greeting {
+  font-size: 20px; font-weight: 300; color: var(--accent);
+  letter-spacing: 3px; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero-name {
+  font-size: clamp(42px, 8vw, 90px);
+  font-weight: 700; letter-spacing: 3px;
+  line-height: 1.05; margin: 10px 0 20px;
+  opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero-name span { font-weight: 300; }
+.hero-role {
+  font-size: clamp(16px, 2.5vw, 24px);
+  font-weight: 400; color: var(--text-dim);
+  letter-spacing: 2px;
+  opacity: 0; animation: fadeUp 1s 0.7s forwards;
+}
+.hero-role em {
+  font-style: normal; color: var(--accent2);
+  font-weight: 600;
+}
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeUp 1s 1.2s forwards;
+}
+.hero-scroll span { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); }
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}

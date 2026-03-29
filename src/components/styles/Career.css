@@ -1,0 +1,48 @@
+.career-section { padding: 120px 5%; position: relative; z-index: 2; }
+.career-heading {
+  font-size: clamp(40px, 5vw, 70px);
+  font-weight: 400; text-align: center;
+  background: linear-gradient(0deg, var(--accent2), #fff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 80px;
+}
+.career-heading span { font-weight: 300; }
+.career-items { max-width: 1100px; margin: 0 auto; position: relative; }
+.career-line {
+  position: absolute; left: 50%; top: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  transform: translateX(-50%);
+}
+.career-dot-glow {
+  position: absolute; bottom: 0; left: 50%; transform: translate(-50%, 50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 6px 3px rgba(103,232,249,0.6), 0 0 20px 10px rgba(94,234,212,0.3), 0 0 80px 20px rgba(165,243,252,0.15);
+  animation: dotPulse 1.5s ease-in-out infinite alternate;
+}
+@keyframes dotPulse {
+  0% { box-shadow: 0 0 6px 3px rgba(103,232,249,0.4); }
+  100% { box-shadow: 0 0 6px 3px rgba(103,232,249,0.6), 0 0 20px 10px rgba(94,234,212,0.3), 0 0 80px 20px rgba(165,243,252,0.15); }
+}
+.career-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 60px; gap: 40px;
+}
+.career-left { width: 45%; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.career-right { width: 45%; }
+.career-role-title { font-size: clamp(20px, 2vw, 30px); font-weight: 600; line-height: 1.2; }
+.career-company { font-size: clamp(16px, 1.3vw, 20px); color: var(--accent); font-weight: 400; margin-top: 6px; }
+.career-company a { border-bottom: 1px solid transparent; }
+.career-company a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.career-year { font-size: clamp(28px, 3vw, 44px); font-weight: 500; white-space: nowrap; }
+.career-desc { font-size: 16px; font-weight: 300; line-height: 1.6; opacity: 0.8; }
+.career-desc a { color: var(--accent); border-bottom: 1px solid transparent; }
+.career-desc a:hover { border-bottom-color: var(--accent); }
+.career-content-fade { animation: contentFade 0.5s ease forwards; }
+@media (max-width: 900px) {
+  .career-item { flex-direction: column; gap: 10px; padding-left: 30px; }
+  .career-left, .career-right { width: 100%; }
+  .career-line { left: 0; }
+  .career-dot-glow { left: 0; }
+}
