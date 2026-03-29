@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
 interface CharacterProps {
   onLoad?: () => void;
@@ -26,12 +26,12 @@ export default function Character({ onLoad }: CharacterProps) {
     // Scene
     const scene = new THREE.Scene();
 
-    // Camera - wider FOV to frame full body
+    // Camera
     const camera = new THREE.PerspectiveCamera(
       30,
       container.clientWidth / container.clientHeight,
       0.1,
-      100
+      1000
     );
     camera.position.set(0, 1.0, 5.5);
     camera.lookAt(0, 0.9, 0);
@@ -77,19 +77,19 @@ export default function Character({ onLoad }: CharacterProps) {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('touchmove', onTouchMove);
 
-    // Load GLTF model
-    const loader = new GLTFLoader();
+    // Load FBX model
+    const loader = new FBXLoader();
     loader.load(
-      '/models/character.glb',
-      (gltf) => {
-        const model = gltf.scene;
+      '/models/Standing Idle.fbx',
+      (fbx) => {
+        const model = fbx;
 
         // Center and scale model
         const box = new THREE.Box3().setFromObject(model);
         const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
 
-        // Scale to fit ~2 units tall
+        // Scale to fit ~2.2 units tall
         const targetHeight = 2.2;
         const scale = targetHeight / size.y;
         model.scale.setScalar(scale);
@@ -143,11 +143,10 @@ export default function Character({ onLoad }: CharacterProps) {
           });
         }
 
-        // Setup animations
-        if (gltf.animations && gltf.animations.length > 0) {
+        // Setup animations from FBX
+        if (fbx.animations && fbx.animations.length > 0) {
           mixer = new THREE.AnimationMixer(model);
-          // Play the first animation (usually idle)
-          const clip = gltf.animations[0];
+          const clip = fbx.animations[0];
           const action = mixer.clipAction(clip);
           action.play();
         }
@@ -156,7 +155,6 @@ export default function Character({ onLoad }: CharacterProps) {
         const modelBox = new THREE.Box3().setFromObject(model);
         const modelCenter = modelBox.getCenter(new THREE.Vector3());
         const modelHeight = modelBox.max.y - modelBox.min.y;
-        // Position camera to see full body with some headroom
         const dist = (modelHeight / 2) / Math.tan((camera.fov / 2) * Math.PI / 180);
         camera.position.set(0, modelCenter.y, dist * 1.1);
         camera.lookAt(0, modelCenter.y, 0);

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useVoice } from '../hooks/useVoice';
 import { orgLogos, navLinks } from '../data/navData';
 import './styles/Navbar.css';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { hasChosen } = useVoice();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
@@ -13,6 +15,11 @@ export default function Navbar() {
 
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    if (!hasChosen) {
+      const gate = document.getElementById('choiceGate');
+      if (gate) gate.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
