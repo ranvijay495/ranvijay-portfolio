@@ -1,9 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import './styles/Landing.css';
 
+const Character = lazy(() => import('./Character'));
+
 export default function Landing() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth > 1024);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -178,7 +187,10 @@ export default function Landing() {
   return (
     <section className="hero" id="home">
       <canvas ref={canvasRef} id="hero-canvas" />
-      <div className="hero-content">
+      <div
+        className="hero-content"
+        style={isDesktop ? { marginRight: '35%' } : undefined}
+      >
         <p className="hero-greeting">Hello, I'm</p>
         <h1 className="hero-name">
           RANVIJAY<br />
@@ -188,6 +200,11 @@ export default function Landing() {
           Director — <em>M&A, Strategy</em> & CEO's Office
         </p>
       </div>
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <Character />
+        </Suspense>
+      )}
       <div className="hero-scroll">
         <span>Scroll</span>
         <div className="scroll-line" />
