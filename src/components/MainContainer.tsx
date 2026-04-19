@@ -1,20 +1,16 @@
 import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
-import { useVoice } from '../hooks/useVoice';
 import Navbar from './Navbar';
 import Landing from './Landing';
-import ChoiceGate from './ChoiceGate';
-import MiniToggle from './MiniToggle';
 import About from './About';
 import WhatIDo from './WhatIDo';
 import Career from './Career';
 import Achievements from './Achievements';
 import Education from './Education';
+import SkillsMarquee from './SkillsMarquee';
 import Contact from './Contact';
 import Footer from './Footer';
 import SocialIcons from './SocialIcons';
 import Cursor from './Cursor';
-
-const SkillSpheres = lazy(() => import('./SkillSpheres'));
 
 function setupRevealObserver() {
   const observer = new IntersectionObserver(
@@ -36,7 +32,6 @@ function setupRevealObserver() {
 }
 
 export default function MainContainer() {
-  const { hasChosen } = useVoice();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
   useEffect(() => {
@@ -88,26 +83,17 @@ export default function MainContainer() {
       <SocialIcons />
       <Navbar />
       <Landing />
-      <ChoiceGate />
+      <div ref={onContentMount}>
+        <About />
+        <WhatIDo />
+        <Career />
+        <Achievements />
+        <Education />
+        <SkillsMarquee />
+        <Contact />
+        <Footer />
+      </div>
 
-      {hasChosen && (
-        <div ref={onContentMount}>
-          <About />
-          <WhatIDo />
-          <Career />
-          <Achievements />
-          <Education />
-          {isDesktop && (
-            <Suspense fallback={null}>
-              <SkillSpheres />
-            </Suspense>
-          )}
-          <Contact />
-          <Footer />
-        </div>
-      )}
-
-      <MiniToggle />
       {isDesktop && <Cursor />}
     </>
   );

@@ -5,24 +5,31 @@ export default function Education() {
   return (
     <section className="section education" id="education">
       <h3 className="section-title reveal">Education</h3>
-      <div className="edu-grid">
+      <div className="edu-list">
         {educationData.map((edu) => (
-          <div className="edu-card reveal" key={edu.institution}>
-            <h3>
+          <div className="edu-item reveal" key={edu.institution}>
+            <div className="edu-institute">
               <a href={edu.url} target="_blank" rel="noreferrer">
                 {edu.institution}
               </a>
-            </h3>
-            <h4>
-              {edu.degree} &middot; {edu.period}
-            </h4>
-            <p>{edu.grade}</p>
-            <div className="edu-highlights">
-              {edu.tags.map((tag) => (
-                <span className="edu-tag" key={tag}>
-                  {tag}
-                </span>
-              ))}
+            </div>
+            <div className="edu-details-wrapper">
+              <div className="edu-degree">
+                {edu.degree}
+              </div>
+              <div className="edu-meta">
+                {edu.period} {edu.grade ? `— ${edu.grade}` : ''}
+              </div>
+              <div className="edu-highlights">
+                {edu.tags.map((tag) => {
+                  const isGold = tag === "Dean's List" || tag.includes("First in");
+                  return (
+                    <span className={`edu-tag ${isGold ? 'edu-tag-gold' : ''}`} key={tag}>
+                      {tag}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           </div>
         ))}

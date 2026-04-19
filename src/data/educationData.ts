@@ -11,10 +11,10 @@ export const educationData: EducationEntry[] = [
   {
     institution: 'Indian School of Business',
     url: 'https://www.isb.edu/',
-    degree: 'PGP',
+    degree: 'PGP (MBA)',
     period: 'Apr 2024 – Apr 2025',
-    grade: "CGPA: 3.82/4 · Dean's List",
-    tags: ['Strategy & Leadership', 'IT Management'],
+    grade: 'CGPA: 3.82/4',
+    tags: ["Dean's List", 'Strategy & Leadership', 'IT Management'],
   },
   {
     institution: 'BITS Pilani',
@@ -22,6 +22,6 @@ export const educationData: EducationEntry[] = [
     degree: 'B.Tech Marine Engineering',
     period: 'Aug 2014 – Jul 2018',
     grade: 'CGPA: 9.65/10',
-    tags: ['Marine Engineering', 'Systems & Operations'],
+    tags: ['First in Marine Engineering Courses', 'Systems & Operations'],
   },
 ];

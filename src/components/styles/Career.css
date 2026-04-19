@@ -1,48 +1,86 @@
-.career-section { padding: 120px 5%; position: relative; z-index: 2; }
-.career-heading {
-  font-size: clamp(40px, 5vw, 70px);
-  font-weight: 400; text-align: center;
-  background: linear-gradient(0deg, var(--accent2), #fff);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 80px;
+.career-section {
+  padding-top: 60px;
 }
-.career-heading span { font-weight: 300; }
-.career-items { max-width: 1100px; margin: 0 auto; position: relative; }
-.career-line {
-  position: absolute; left: 50%; top: 0;
-  width: 3px; height: 100%;
-  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-  transform: translateX(-50%);
+
+.career-items {
+  border-top: 1px solid var(--border-color);
 }
-.career-dot-glow {
-  position: absolute; bottom: 0; left: 50%; transform: translate(-50%, 50%);
-  width: 12px; height: 12px; border-radius: 50%;
-  background: var(--accent2);
-  box-shadow: 0 0 6px 3px rgba(103,232,249,0.6), 0 0 20px 10px rgba(94,234,212,0.3), 0 0 80px 20px rgba(165,243,252,0.15);
-  animation: dotPulse 1.5s ease-in-out infinite alternate;
-}
-@keyframes dotPulse {
-  0% { box-shadow: 0 0 6px 3px rgba(103,232,249,0.4); }
-  100% { box-shadow: 0 0 6px 3px rgba(103,232,249,0.6), 0 0 20px 10px rgba(94,234,212,0.3), 0 0 80px 20px rgba(165,243,252,0.15); }
-}
+
 .career-item {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 60px; gap: 40px;
+  border-bottom: 1px solid var(--border-color);
+  padding: 50px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 15vw;
 }
-.career-left { width: 45%; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
-.career-right { width: 45%; }
-.career-role-title { font-size: clamp(20px, 2vw, 30px); font-weight: 600; line-height: 1.2; }
-.career-company { font-size: clamp(16px, 1.3vw, 20px); color: var(--accent); font-weight: 400; margin-top: 6px; }
-.career-company a { border-bottom: 1px solid transparent; }
-.career-company a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-.career-year { font-size: clamp(28px, 3vw, 44px); font-weight: 500; white-space: nowrap; }
-.career-desc { font-size: 16px; font-weight: 300; line-height: 1.6; opacity: 0.8; }
-.career-desc a { color: var(--accent); border-bottom: 1px solid transparent; }
-.career-desc a:hover { border-bottom-color: var(--accent); }
-.career-content-fade { animation: contentFade 0.5s ease forwards; }
+
+.career-year {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 50px);
+  font-weight: 700;
+  color: var(--text-bright);
+  /* Firmly lock the year column width to enforce vertical alignment down the page */
+  flex: 0 0 clamp(180px, 15vw, 300px);
+}
+
+.career-details {
+  flex: 1;
+}
+
+.career-role {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-bright);
+  margin-bottom: 15px;
+}
+
+.career-company {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.career-company a {
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.career-company a:hover {
+  color: var(--accent);
+}
+
+.career-content-wrapper {
+  margin-top: 40px;
+  max-width: 600px;
+  position: relative;
+  /* Allow the overlay to expand if needed, but crop blur overflow */
+}
+
+.career-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  font-weight: 300;
+  transition: opacity 0.4s ease;
+}
+
+.corporate-text {
+  /* No special styles needed, it rests at the bottom */
+}
 @media (max-width: 900px) {
-  .career-item { flex-direction: column; gap: 10px; padding-left: 30px; }
-  .career-left, .career-right { width: 100%; }
-  .career-line { left: 0; }
-  .career-dot-glow { left: 0; }
+  .career-item {
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 0;
+  }
+  .career-year {
+    font-size: 32px;
+  }
+  .career-role {
+    font-size: 32px;
+  }
 }

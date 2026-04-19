@@ -1,0 +1,39 @@
+.story-mask-container {
+  position: relative;
+  /* Allow the bounds to naturally dictate normal flow layout */
+}
+
+.story-mask-default {
+  /* Text rests naturally */
+}
+
+.story-mask-hover-block {
+  /* Using the 300px bleed mechanic for a flawless borderless clip mask */
+  position: absolute;
+  top: -300px;
+  bottom: -300px;
+  left: -300px;
+  right: -300px;
+  
+  /* The padding perfectly realigns the inner child geometrically */
+  padding: 300px;
+  box-sizing: border-box;
+
+  z-index: 10;
+  pointer-events: none;
+  
+  clip-path: circle(0px at 50% 50%);
+}
+
+.story-mask-hover-text {
+  /* Internal styles inherited naturally from parent */
+  width: 100%;
+  height: 100%;
+}
+
+/* Force ALL text inside the mask to be pitch black, overriding .highlight or <a> tags 
+   so they don't become invisible against the orange background. */
+.story-mask-hover-block,
+.story-mask-hover-block * {
+  color: #000 !important;
+}

@@ -1,12 +1,19 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
+import { useEffect, useState, useRef } from 'react';
+import portraitImg from '../assets/cinematic-portrait.png';
 import './styles/Landing.css';
 
-const Character = lazy(() => import('./Character'));
-
 export default function Landing() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
+  const heroRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLImageElement>(null);
+
+  // Use refs to track the lerp targets vs current position
+  const mouse = useRef({ x: 0, y: 0, radius: 0 });
+  const current = useRef({ x: 0, y: 0, radius: 0 });
 
   useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth > 1024);
@@ -14,197 +21,137 @@ export default function Landing() {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  // Parallax Rotation Logic for Cinematic Portrait
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 50;
-
-    // Particles
-    const count = 800;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    const velocities: { x: number; y: number; z: number }[] = [];
-
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 120;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 120;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 80;
-      velocities.push({
-        x: (Math.random() - 0.5) * 0.02,
-        y: (Math.random() - 0.5) * 0.02,
-        z: (Math.random() - 0.5) * 0.01,
-      });
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const material = new THREE.PointsMaterial({
-      color: 0x5eead4,
-      size: 0.15,
-      transparent: true,
-      opacity: 0.7,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // Connection lines
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePositions = new Float32Array(150 * 150 * 6);
-    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x5eead4,
-      transparent: true,
-      opacity: 0.08,
-      blending: THREE.AdditiveBlending,
-    });
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(lines);
-
-    // Floating spheres
-    const sphereGeo = new THREE.SphereGeometry(0.6, 16, 16);
-    const sphereMat = new THREE.MeshBasicMaterial({
-      color: 0x14b8a6,
-      transparent: true,
-      opacity: 0.15,
-      wireframe: true,
-    });
-    const floatingSpheres: THREE.Mesh[] = [];
-    for (let i = 0; i < 5; i++) {
-      const sphere = new THREE.Mesh(sphereGeo.clone(), sphereMat.clone());
-      sphere.position.set(
-        (Math.random() - 0.5) * 60,
-        (Math.random() - 0.5) * 40,
-        (Math.random() - 0.5) * 30
-      );
-      sphere.scale.setScalar(Math.random() * 2 + 1);
-      sphere.userData = {
-        speed: Math.random() * 0.003 + 0.001,
-        offset: Math.random() * Math.PI * 2,
-      };
-      scene.add(sphere);
-      floatingSpheres.push(sphere);
-    }
-
-    const mouse = { x: 0, y: 0 };
-    const onMouseMove = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    document.addEventListener('mousemove', onMouseMove);
-
-    let animId: number;
-    function animate() {
-      animId = requestAnimationFrame(animate);
-
-      const pos = geometry.attributes.position.array as Float32Array;
-
-      for (let i = 0; i < count; i++) {
-        pos[i * 3] += velocities[i].x;
-        pos[i * 3 + 1] += velocities[i].y;
-        pos[i * 3 + 2] += velocities[i].z;
-
-        if (Math.abs(pos[i * 3]) > 60) velocities[i].x *= -1;
-        if (Math.abs(pos[i * 3 + 1]) > 60) velocities[i].y *= -1;
-        if (Math.abs(pos[i * 3 + 2]) > 40) velocities[i].z *= -1;
-      }
-      geometry.attributes.position.needsUpdate = true;
-
-      // Update connection lines
-      let lineIndex = 0;
-      const lPos = lineGeometry.attributes.position.array as Float32Array;
-      const threshold = 12;
-
-      for (let i = 0; i < Math.min(count, 150); i++) {
-        for (let j = i + 1; j < Math.min(count, 150); j++) {
-          const dx = pos[i * 3] - pos[j * 3];
-          const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
-          const dz = pos[i * 3 + 2] - pos[j * 3 + 2];
-          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-          if (dist < threshold) {
-            lPos[lineIndex++] = pos[i * 3];
-            lPos[lineIndex++] = pos[i * 3 + 1];
-            lPos[lineIndex++] = pos[i * 3 + 2];
-            lPos[lineIndex++] = pos[j * 3];
-            lPos[lineIndex++] = pos[j * 3 + 1];
-            lPos[lineIndex++] = pos[j * 3 + 2];
-          }
+    const onScroll = () => {
+      if (portraitRef.current) {
+        const scrollY = window.scrollY;
+        const maxScroll = window.innerHeight;
+        const progress = Math.min(scrollY / maxScroll, 1); // 0 → 1
+        
+        // Constrain Y-axis rotation to a subtle, premium holographic pan (-12deg max)
+        const rotationY = progress * -12;
+        
+        // Anchor the rotation perfectly in the center to maintain physical scale, 
+        portraitRef.current.style.transformOrigin = 'center center';
+        portraitRef.current.style.transform = `perspective(4000px) rotateY(${rotationY}deg)`;
+        
+        // Fade in the harsh split-light layer as you scroll
+        if (glowRef.current) {
+          glowRef.current.style.opacity = `${progress}`;
         }
       }
+    };
+    
+    // Use passive listener for butter-smooth scroll performance
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-      for (let i = lineIndex; i < lineIndex + 300; i++) lPos[i] = 0;
-      lineGeometry.setDrawRange(0, lineIndex / 3);
-      lineGeometry.attributes.position.needsUpdate = true;
-
-      // Floating spheres
-      const time = Date.now() * 0.001;
-      floatingSpheres.forEach((s) => {
-        s.rotation.x += s.userData.speed;
-        s.rotation.y += s.userData.speed * 0.7;
-        s.position.y += Math.sin(time + s.userData.offset) * 0.01;
-      });
-
-      // Camera follows mouse
-      camera.position.x += (mouse.x * 5 - camera.position.x) * 0.02;
-      camera.position.y += (mouse.y * 3 - camera.position.y) * 0.02;
-      camera.lookAt(scene.position);
-
-      particles.rotation.y += 0.0003;
-
-      renderer.render(scene, camera);
+  // Frame Loop for Buttery Smooth Lerp tracking of the Orange Circle
+  useEffect(() => {
+    let animationFrameId: number;
+    
+    // Position mask center to default to center of the element on mount
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const hw = (rect.width / 2) + 300;
+      const hh = (rect.height / 2) + 300;
+      mouse.current.x = hw;
+      mouse.current.y = hh;
+      current.current.x = hw;
+      current.current.y = hh;
     }
-    animate();
 
-    const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', onResize);
+    const render = () => {
+      // Instantly track X and Y so cursor never escapes the center
+      current.current.x = mouse.current.x;
+      current.current.y = mouse.current.y;
+      
+      // Smoothly interpolate the radius only
+      current.current.radius += (mouse.current.radius - current.current.radius) * 0.15;
 
-    return () => {
-      cancelAnimationFrame(animId);
-      document.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
-      renderer.dispose();
-      geometry.dispose();
-      material.dispose();
-      lineGeometry.dispose();
-      lineMaterial.dispose();
+      if (maskRef.current) {
+        maskRef.current.style.clipPath = `circle(${current.current.radius}px at ${current.current.x}px ${current.current.y}px)`;
+      }
+      animationFrameId = requestAnimationFrame(render);
     };
+    render();
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const onMouseMove = (e: MouseEvent) => {
+      // Main hero ambient spotlight
+      if (spotlightRef.current) {
+        spotlightRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
+
+      // Track the mouse coordinates relative to the text block bounds mapped to mask bounds
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        mouse.current.x = (e.clientX - rect.left) + 300;
+        mouse.current.y = (e.clientY - rect.top) + 300;
+      }
+    };
+
+    hero.addEventListener('mousemove', onMouseMove);
+    return () => hero.removeEventListener('mousemove', onMouseMove);
   }, []);
 
   return (
-    <section className="hero" id="home">
-      <canvas ref={canvasRef} id="hero-canvas" />
-      <div
-        className="hero-content"
-        style={isDesktop ? { marginRight: '35%' } : undefined}
-      >
-        <p className="hero-greeting">Hello, I'm</p>
-        <h1 className="hero-name">
-          RANVIJAY<br />
-          <span>SINGH</span>
-        </h1>
+    <section className="hero" id="home" ref={heroRef}>
+      {/* Cinematic Background Image Layer */}
+      <div className="hero-bg-wrapper">
+        <div className="hero-bg-image-container" ref={portraitRef}>
+          <img src={portraitImg} alt="" className="hero-bg-image" />
+          <img src={portraitImg} alt="" className="hero-bg-image hero-half-glow" ref={glowRef} />
+        </div>
+        <div className="hero-bg-overlay" />
+      </div>
+
+      <div className="hero-spotlight" ref={spotlightRef} />
+
+      <div className="hero-content">
+        <p className="hero-greeting">R A N V I J A Y &nbsp; S I N G H</p>
+        <div 
+          className="hero-name-container" 
+          ref={containerRef}
+          onMouseEnter={() => {
+            // Expand circle on hover to encompass area. 
+            // 280px is a solid large radius.
+            mouse.current.radius = 280; 
+          }}
+          onMouseLeave={() => {
+            // Shrink completely back into nothingness
+            mouse.current.radius = 0;
+          }}
+        >
+          <h1 className="hero-name hero-default">
+            MBA,<br />
+            CORPORATE<br />
+            <span className="accent-text">DEVELOPMENT,</span><br />
+            M&A,<br />
+            STRATEGY
+          </h1>
+          <div className="hero-hover-block" ref={maskRef}>
+            <h1 className="hero-name hero-hover-text">
+              ENGINEERING,<br />
+              OPERATIONS
+            </h1>
+          </div>
+        </div>
         <p className="hero-role">
           Director — <em>M&A, Strategy</em> & CEO's Office
         </p>
       </div>
-      {isDesktop && (
-        <Suspense fallback={null}>
-          <Character />
-        </Suspense>
-      )}
+
+
+
       <div className="hero-scroll">
         <span>Scroll</span>
         <div className="scroll-line" />

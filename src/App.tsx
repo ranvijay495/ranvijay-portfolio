@@ -1,5 +1,4 @@
 import { lazy, Suspense, useContext, useEffect, useRef, useState } from 'react';
-import { VoiceProvider } from './context/VoiceProvider';
 import { LoadingProvider, LoadingContext } from './context/LoadingProvider';
 
 const MainContainer = lazy(() => import('./components/MainContainer'));
@@ -62,57 +61,11 @@ function LoadingScreen() {
 }
 
 function AppInner() {
-  const { setLoaded, setProgress } = useContext(LoadingContext);
+  const { setLoaded } = useContext(LoadingContext);
 
   useEffect(() => {
-    let completed = 0;
-    const totalSteps = 5;
-
-    const step = () => {
-      completed++;
-      setProgress((completed / totalSteps) * 100);
-      if (completed >= totalSteps) {
-        setLoaded();
-      }
-    };
-
-    // Track document ready
-    if (document.readyState === 'complete') {
-      step();
-    } else {
-      window.addEventListener('load', step, { once: true });
-    }
-
-    // Track fonts
-    document.fonts.ready.then(() => step());
-
-    // Track stylesheets loaded
-    const styleSheets = document.querySelectorAll('link[rel="stylesheet"]');
-    if (styleSheets.length === 0) {
-      step();
-    } else {
-      let loaded = false;
-      const markLoaded = () => { if (!loaded) { loaded = true; step(); } };
-      styleSheets.forEach((s) => {
-        if ((s as HTMLLinkElement).sheet) {
-          markLoaded();
-        } else {
-          s.addEventListener('load', markLoaded, { once: true });
-        }
-      });
-      // Fallback
-      setTimeout(markLoaded, 2000);
-    }
-
-    // Simulate progressive loading for remaining assets
-    const t1 = setTimeout(() => step(), 500);
-    const t2 = setTimeout(() => step(), 1200);
-
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [setLoaded, setProgress]);
+    setLoaded();
+  }, [setLoaded]);
 
   return (
     <>
@@ -127,9 +80,7 @@ function AppInner() {
 export default function App() {
   return (
     <LoadingProvider>
-      <VoiceProvider>
-        <AppInner />
-      </VoiceProvider>
+      <AppInner />
     </LoadingProvider>
   );
 }
