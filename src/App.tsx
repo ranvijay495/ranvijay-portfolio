@@ -1,4 +1,5 @@
 import { lazy, Suspense, useContext, useEffect, useRef, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { LoadingProvider, LoadingContext } from './context/LoadingProvider';
 
 const MainContainer = lazy(() => import('./components/MainContainer'));
@@ -73,6 +74,7 @@ function AppInner() {
       <Suspense fallback={null}>
         <MainContainer />
       </Suspense>
+      <Analytics />
     </>
   );
 }
