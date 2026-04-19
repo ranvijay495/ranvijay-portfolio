@@ -54,24 +54,42 @@ export default function StoryMask({
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const onMouseMove = (e: React.MouseEvent) => {
+  const updatePos = (clientX: number, clientY: number) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      mouse.current.x = (e.clientX - rect.left) + 300;
-      mouse.current.y = (e.clientY - rect.top) + 300;
+      mouse.current.x = (clientX - rect.left) + 300;
+      mouse.current.y = (clientY - rect.top) + 300;
     }
   };
 
-  const onMouseEnter = () => mouse.current.radius = 280;
-  const onMouseLeave = () => mouse.current.radius = 0;
+  const onMouseMove = (e: React.MouseEvent) => updatePos(e.clientX, e.clientY);
+  const onMouseEnter = () => { mouse.current.radius = 280; };
+  const onMouseLeave = () => { mouse.current.radius = 0; };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    if (t) updatePos(t.clientX, t.clientY);
+    mouse.current.radius = 280;
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    if (t) updatePos(t.clientX, t.clientY);
+  };
+  const onTouchEnd = () => {
+    // Keep the reveal visible briefly after lift, then shrink.
+    setTimeout(() => { mouse.current.radius = 0; }, 800);
+  };
 
   return (
-    <div 
-      className={`story-mask-container ${className}`} 
+    <div
+      className={`story-mask-container ${className}`}
       ref={containerRef}
       onMouseMove={onMouseMove}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       <div 
         className="story-mask-default" 
