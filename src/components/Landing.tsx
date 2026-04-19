@@ -112,17 +112,39 @@ export default function Landing() {
 
       <div className="hero-content">
         <p className="hero-greeting">R A N V I J A Y &nbsp; S I N G H</p>
-        <div 
-          className="hero-name-container" 
+        <div
+          className="hero-name-container"
           ref={containerRef}
           onMouseEnter={() => {
-            // Expand circle on hover to encompass area. 
+            // Expand circle on hover to encompass area.
             // 280px is a solid large radius.
-            mouse.current.radius = 280; 
+            mouse.current.radius = 280;
           }}
           onMouseLeave={() => {
             // Shrink completely back into nothingness
             mouse.current.radius = 0;
+          }}
+          onTouchStart={(e) => {
+            // Position the circle at the touch point, then expand.
+            const touch = e.touches[0];
+            if (containerRef.current && touch) {
+              const rect = containerRef.current.getBoundingClientRect();
+              mouse.current.x = (touch.clientX - rect.left) + 300;
+              mouse.current.y = (touch.clientY - rect.top) + 300;
+            }
+            mouse.current.radius = 280;
+          }}
+          onTouchMove={(e) => {
+            const touch = e.touches[0];
+            if (containerRef.current && touch) {
+              const rect = containerRef.current.getBoundingClientRect();
+              mouse.current.x = (touch.clientX - rect.left) + 300;
+              mouse.current.y = (touch.clientY - rect.top) + 300;
+            }
+          }}
+          onTouchEnd={() => {
+            // Keep the reveal visible briefly after lift, then shrink.
+            setTimeout(() => { mouse.current.radius = 0; }, 800);
           }}
         >
           <h1 className="hero-name hero-default">
