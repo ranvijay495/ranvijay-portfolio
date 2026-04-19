@@ -74,13 +74,35 @@
 @media (max-width: 900px) {
   .career-item {
     flex-direction: column;
-    gap: 20px;
-    padding: 40px 0;
+    gap: 16px;
+    padding: 36px 0;
   }
   .career-year {
-    font-size: 32px;
+    font-size: 28px;
+    flex: 0 0 auto;
   }
   .career-role {
-    font-size: 32px;
+    font-size: 28px;
   }
+  .career-content-wrapper {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .career-section { padding-top: 24px; }
+  .career-item {
+    gap: 12px;
+    padding: 28px 0;
+  }
+  .career-year { font-size: 22px; }
+  .career-role {
+    font-size: clamp(20px, 5.5vw, 28px);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .career-company { font-size: 14px; }
+  .career-desc { font-size: 15px; line-height: 1.55; }
+  .career-content-wrapper { margin-top: 14px; }
 }

@@ -56,3 +56,19 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+@media (max-width: 768px) {
+  .skills-marquee-section { padding: 24px 0; }
+  .skills-marquee-container {
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+  .skills-marquee-item {
+    font-size: clamp(16px, 5vw, 22px);
+  }
+  .skills-marquee-bullet {
+    padding: 0 18px;
+    font-size: clamp(12px, 3vw, 16px);
+  }
+  .skills-marquee-track { animation-duration: 35s; }
+}

@@ -110,3 +110,20 @@
     color: var(--text-bright);
   }
 }
+
+@media (max-width: 768px) {
+  .whatido-header { padding-bottom: 24px; }
+  .whatido-dot { width: 16px; height: 16px; }
+  .whatido-item {
+    gap: 12px;
+    padding: 24px 0;
+  }
+  .whatido-title-wrapper h3 {
+    font-size: clamp(28px, 8vw, 44px);
+    margin-bottom: 6px;
+  }
+  .whatido-subtitle { font-size: 12px; letter-spacing: 0.15em; }
+  .whatido-desc-wrapper p { font-size: 15px; line-height: 1.55; }
+  /* Disable desktop hover translate on touch */
+  .whatido-item:hover h3 { transform: none; }
+}

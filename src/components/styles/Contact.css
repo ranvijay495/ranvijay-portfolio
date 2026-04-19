@@ -26,6 +26,17 @@
 .footer-credit { font-size: 18px; font-weight: 400; }
 .footer-credit span { color: var(--accent); }
 .footer-copy { font-size: 16px; opacity: 0.4; }
+@media (max-width: 768px) {
+  .contact-section { padding: 72px 5% 48px; }
+  .contact-section h2 { margin-bottom: 28px; }
+  .contact-grid { flex-direction: column; gap: 20px; }
+  .contact-col h4 { font-size: 13px; margin-top: 16px; }
+  .contact-link { font-size: 17px; padding: 6px 0; }
+  .contact-link svg { width: 14px; height: 14px; }
+}
+
 @media (max-width: 600px) {
-  .footer { flex-direction: column; gap: 10px; text-align: center; }
+  .footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 5%; }
+  .footer-credit { font-size: 15px; }
+  .footer-copy { font-size: 13px; }
 }

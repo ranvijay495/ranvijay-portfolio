@@ -221,6 +221,21 @@
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 0 24px; }
-  .hero-scroll { right: 24px; }
+  .hero { padding: 100px 24px 60px; min-height: auto; }
+  .hero-content { padding: 20px 0; }
+  .hero-greeting { font-size: 12px; margin-bottom: 20px; }
+  .hero-name-container { margin: 0 0 24px; }
+  .hero-role { font-size: 15px; line-height: 1.5; }
+  .hero-spotlight { display: none; }
+  .hero-bg-image-container {
+    width: 80vw;
+    height: 60vh;
+    right: -20%;
+    opacity: 0.5;
+  }
+  .hero-bg-overlay {
+    background: linear-gradient(to right, var(--bg) 10%, transparent 70%),
+                linear-gradient(to top, var(--bg) 10%, transparent 50%);
+  }
+  .hero-scroll { display: none; }
 }

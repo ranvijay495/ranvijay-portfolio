@@ -98,7 +98,24 @@
   .edu-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
-    padding: 40px 0;
+    gap: 16px;
+    padding: 36px 0;
+  }
+  .edu-details-wrapper { max-width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .edu-item {
+    gap: 12px;
+    padding: 28px 0;
+  }
+  .edu-institute a {
+    font-size: clamp(22px, 6.5vw, 36px);
+  }
+  .edu-degree { font-size: 18px; }
+  .edu-meta { font-size: 13px; margin-bottom: 14px; }
+  .edu-tag {
+    font-size: 10px;
+    padding: 5px 10px;
   }
 }
