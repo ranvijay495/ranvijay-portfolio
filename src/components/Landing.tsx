@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import portraitImg from '../assets/cinematic-portrait.png';
 import './styles/Landing.css';
 
 export default function Landing() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
   const heroRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
@@ -15,11 +14,6 @@ export default function Landing() {
   const mouse = useRef({ x: 0, y: 0, radius: 0 });
   const current = useRef({ x: 0, y: 0, radius: 0 });
 
-  useEffect(() => {
-    const onResize = () => setIsDesktop(window.innerWidth > 1024);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
   // Parallax Rotation Logic for Cinematic Portrait
   useEffect(() => {

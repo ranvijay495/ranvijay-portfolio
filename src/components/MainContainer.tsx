@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Navbar from './Navbar';
 import Landing from './Landing';
 import About from './About';
