@@ -3,12 +3,19 @@
   display: flex; justify-content: space-between; align-items: flex-start;
   padding: 30px 50px;
   background: transparent;
-  transition: background 0.3s;
+  transition: background 0.3s, backdrop-filter 0.3s, -webkit-backdrop-filter 0.3s;
   /* Force own compositing layer so iOS Safari renders backdrop-filter
-     (otherwise body { overflow-x: hidden } breaks it on position:fixed). */
+     (otherwise body { overflow-x: clip } can break it on position:fixed). */
   isolation: isolate;
-  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.navbar-scrolled {
+  background: rgba(21, 21, 32, 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .nav-logo { 
@@ -67,7 +74,12 @@
 }
 
 @media (max-width: 768px) {
+  /* Always-on glass on mobile — no need to wait for scroll */
   .navbar {
+    background: rgba(21, 21, 32, 0.55);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     padding: 12px 5% 10px;
     align-items: center;
     flex-wrap: wrap;

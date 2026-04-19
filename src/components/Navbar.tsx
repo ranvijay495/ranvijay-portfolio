@@ -18,19 +18,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className="navbar"
-      style={
-        scrolled
-          ? {
-              background: 'rgba(21, 21, 32, 0.55)',
-              backdropFilter: 'blur(16px) saturate(160%)',
-              WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }
-          : undefined
-      }
-    >
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <a href="#" className="nav-logo">RS</a>
 
       <div className="nav-logos">
