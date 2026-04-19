@@ -4,6 +4,11 @@
   padding: 30px 50px;
   background: transparent;
   transition: background 0.3s;
+  /* Force own compositing layer so iOS Safari renders backdrop-filter
+     (otherwise body { overflow-x: hidden } breaks it on position:fixed). */
+  isolation: isolate;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .nav-logo { 
