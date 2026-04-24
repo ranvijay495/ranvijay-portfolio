@@ -72,10 +72,7 @@
   bottom: -300px;
   left: -300px;
   right: -300px;
-  /* Vivid orange with a hint of backdrop glass so it feels alive, not flat */
-  background-color: rgba(232, 115, 74, 0.92);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
+  background-color: var(--accent2);
   display: flex;
   align-items: center;
   justify-content: center;
