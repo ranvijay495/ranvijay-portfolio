@@ -149,9 +149,9 @@ export default function Landing() {
         >
           <h1 className="hero-name hero-default">
             CEO'S OFFICE,<br />
+            <span className="accent-text">M&A,</span><br />
             CORPORATE<br />
-            <span className="accent-text">DEVELOPMENT,</span><br />
-            M&A,<br />
+            DEVELOPMENT,<br />
             STRATEGY
           </h1>
           <div className="hero-hover-block" ref={maskRef}>
