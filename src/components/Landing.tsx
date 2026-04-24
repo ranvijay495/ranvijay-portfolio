@@ -148,7 +148,7 @@ export default function Landing() {
           }}
         >
           <h1 className="hero-name hero-default">
-            MBA,<br />
+            CEO'S OFFICE,<br />
             CORPORATE<br />
             <span className="accent-text">DEVELOPMENT,</span><br />
             M&A,<br />
@@ -157,12 +157,13 @@ export default function Landing() {
           <div className="hero-hover-block" ref={maskRef}>
             <h1 className="hero-name hero-hover-text">
               ENGINEERING,<br />
-              OPERATIONS
+              OPERATIONS,<br />
+              MBA
             </h1>
           </div>
         </div>
         <p className="hero-role">
-          Director — <em>M&A, Strategy</em> & CEO's Office
+          Director — M&amp;A, Strategy &amp; CEO's Office
         </p>
       </div>
 
